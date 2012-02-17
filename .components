@@ -1,0 +1,7 @@
+--- 
+:orm: activerecord
+:mock: mocha
+:script: none
+:stylesheet: none
+:renderer: haml
+:test: rspec
