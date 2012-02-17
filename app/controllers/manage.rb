@@ -18,5 +18,11 @@ SamplePokerBot.controllers :manage do
   #   "Hello world!"
   # end
 
-  
+  get "/" do
+    render 'index'
+  end
+
+  post "/register" do
+    RestClient.post params[:server], { :hostname => params[:hostname], :name => params[:name]}
+  end
 end
