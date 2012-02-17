@@ -1,4 +1,4 @@
-SamplePokerBot.controllers :seating do
+SamplePokerBot.controllers :player do
   # get :index, :map => "/foo/bar" do
   #   session[:foo] = "bar"
   #   render 'index'
@@ -24,8 +24,7 @@ SamplePokerBot.controllers :seating do
   end
 
   post "/seat" do
-    table = JSON.parse(params[:table])
-    logger.info "Joining table #{table.inspect}"
+    logger.info "Joining table #{params[:table].inspect}"
 
     status 200
     "Ready!"
