@@ -1,0 +1,17 @@
+%h1 Bot Management
+%h2 Register for a Tournament
+- form_tag '/manage/register', :method => 'post' do
+  = flash_tag(:notice)
+  - field_set_tag do
+    %p
+      = label_tag :server, :class => 'first'
+      = text_field_tag :server
+    %p
+      = label_tag :hostname, :class => 'first'
+      = text_field_tag :hostname
+    %p
+      = label_tag :name, :class => 'first'
+      = text_field_tag :name
+  - field_set_tag(:class => 'buttons') do
+    = submit_tag "Register"
+
