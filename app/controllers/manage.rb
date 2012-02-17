@@ -1,4 +1,4 @@
-SamplePokerBot.controllers :player do
+SamplePokerBot.controllers :manage do
   # get :index, :map => "/foo/bar" do
   #   session[:foo] = "bar"
   #   render 'index'
@@ -18,17 +18,5 @@ SamplePokerBot.controllers :player do
   #   "Hello world!"
   # end
 
-  # Return 200 if you're ready to start the game.
-  get "/ready" do
-    status 200
-    "Always!"
-  end
-
-  # Return 200 if you accept your seat at the table.
-  post "/seat" do
-    logger.info "Joining table #{params[:table].inspect}"
-
-    status 200
-    "Ready!"
-  end
+  
 end
