@@ -18,8 +18,16 @@ SamplePokerBot.controllers :seating do
   #   "Hello world!"
   # end
 
-  post "/" do
+  get "/ready" do
     status 200
-    "I accept!"
+    "Always!"
+  end
+
+  post "/seat" do
+    table = JSON.parse(params[:table])
+    logger.info "Joining table #{table.inspect}"
+
+    status 200
+    "Ready!"
   end
 end
