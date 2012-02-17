@@ -19,10 +19,17 @@ SamplePokerBot.controllers :manage do
   # end
 
   get "/" do
-    render 'index'
+    render 'manage/index'
   end
 
   post "/register" do
-    RestClient.post params[:server], { :hostname => params[:hostname], :name => params[:name]}
+    begin
+      RestClient.post params[:server], { :hostname => params[:hostname], :name => params[:name]}
+      flash[:notice] = "Successfully registered."
+    rescue => e
+      flash[:notice] = "Did not register!"
+    ensure
+      redirect "/manage"
+    end
   end
 end
