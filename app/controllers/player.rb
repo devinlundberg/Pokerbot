@@ -36,8 +36,17 @@ SamplePokerBot.controllers :player do
   # Get your bot's action for the next turn.
   # Data passed in:
   # {
-  #   :min_bet => 20,
-  #   :your_chips => 100
+  #   :minimum_bet => 20,
+  #   :your_chips => 100,
+  #   :your_cards => [
+  #     {:suit => "C", :value => "9" },
+  #     {:suit => "S", :value => "9" }
+  #   ],
+  #   :community_cards => [
+  #     {:suit => "H", :value => "9" },
+  #     {:suit => "C", :value => "8" },
+  #     {:suit => "D", :value => "9" }
+  #   ] 
   # }
   #
   # Return 200 and your action in the format:
@@ -51,9 +60,12 @@ SamplePokerBot.controllers :player do
 
     content_type :json
 
-    if params[:your_chips] > params[:min_bet]
+    if params[:blind]
       status 200
-      { :action => "bet", :amount => params[:min_bet] }.to_json
+      { :action => "blind", :amount => params[:minimum_bet] }.to_json
+    elsif params[:your_chips] > params[:minimum_bet]
+      status 200
+      { :action => "bet", :amount => params[:minimum_bet] }.to_json
     else
       status 403
       { :action => "fold"}.to_json
