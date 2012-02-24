@@ -60,15 +60,18 @@ SamplePokerBot.controllers :player do
 
     content_type :json
 
-    if params[:blind]
+    if params[:blind] == "true"
       status 200
-      { :action => "blind", :amount => params[:minimum_bet] }.to_json
+      action = { :action => "blind", :amount => params[:minimum_bet] }.to_json
     elsif params[:your_chips] > params[:minimum_bet]
       status 200
-      { :action => "bet", :amount => params[:minimum_bet] }.to_json
+      action = { :action => "bet", :amount => params[:minimum_bet] }.to_json
     else
       status 403
-      { :action => "fold"}.to_json
+      action = { :action => "fold"}.to_json
     end
+
+    logger.info "Decided on #{action.inspect}."
+    body action
   end
 end
