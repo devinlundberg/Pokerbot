@@ -63,9 +63,17 @@ SamplePokerBot.controllers :player do
     if params[:blind] == "true"
       status 200
       action = { :action => "blind", :amount => params[:minimum_bet] }.to_json
-    elsif params[:your_chips] > params[:minimum_bet]
+    elsif params[:your_chips].to_i > params[:minimum_bet].to_i
       status 200
-      action = { :action => "bet", :amount => params[:minimum_bet] }.to_json
+      amount = params[:minimum_bet].to_i
+
+      # Randomly raise a bit. Maybe.
+      raise_amount = rand(20) < 2 ? 1 : 0
+      if amount + raise_amount < params[:your_chips].to_i
+        amount += raise_amount
+      end
+      
+      action = { :action => "bet", :amount => amount }.to_json
     else
       status 403
       action = { :action => "fold"}.to_json
