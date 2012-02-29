@@ -211,3 +211,5 @@ You can simulate the last one (the first three are simple enough for you to figu
 ## Final notes
 
 This is Enova Hold'Em, not Texas Hold'Em. Which is the same, except that any ways in which they're different are features, not bugs ;)
+
+Also, remember to post blinds. Failure to do so exactly as specified will result in you being kicked off the table (as a way to keep players from simply folding all game), so I would recommend putting that logic *first* in your bot and then getting into everything else.
