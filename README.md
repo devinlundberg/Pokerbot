@@ -14,10 +14,13 @@ You just need Ruby installed (http://www.ruby-lang.org/en/downloads/) along with
 
 Then, clone this repo to somewhere on your computer. From the command-line, that'd be:
 
+<pre>
   git clone https://rnubel@github.com/rnubel/poker_bot.git poker_bot
+</pre>
 
 Next, install the app's dependencies. Our first step here is to use RubyGems to install Bundler, which will handle our gem dependencies for us.
-  
+
+<pre>
   cd poker_bot
 
   # You may need to sudo this command.
@@ -25,11 +28,13 @@ Next, install the app's dependencies. Our first step here is to use RubyGems to 
 
   # Install all dependencies.
   bundle install
+</pre>
 
 At this point you should be able to spin up the bot on a port of your choice (3000 is the default):
 
+<pre>
   bundle exec padrino start -p 3000
-
+</pre>
 
 ## Controlling
 
@@ -46,7 +51,9 @@ The only interface defined for the server is the registration endpoint.
 
 ### Registration
 
+<pre>
   POST <tournamenthost>/tournament/register
+</pre>
 
 Your POST headers must contain the following parameters:
   
