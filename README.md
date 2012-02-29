@@ -57,16 +57,22 @@ The only interface defined for the server is the registration endpoint.
 
 Your POST headers must contain the following parameters:
   
+<pre>
   hostname    - Your bot's hostname. E.g., 10.23.221.24:3000
   name        - Your bot/team name. Please also include your netid(s). E.g., Bot Awesome (rnubel2)
+</pre>
 
 As a CURL request, this would look like:
 
+<pre>
   curl --data "hostname=localhost:3001&name=Bot%20Awesome" localhost:3000/tournament/register
+</pre>
 
 In Ruby, using RestClient (like this bot does), it's just:
 
+<pre>
   RestClient.post("localhost:3000/tournament/register", { :name => "Bot Awesome", :hostname => "localhost:3001" })
+</pre>
 
 
 ## Bot Interface Specification
@@ -77,9 +83,11 @@ Your bot must implement at least the first three of these interfaces. The fourth
 In order for a registered bot to play in the tournament, the tournament server will first check that the bot
 is capable of responding to HTTP requests. The server will do this by making a GET request to:
 
+<pre>
   GET <hostname>/player/ready
 
   No parameters are passed.
+</pre>
 
 In order to be seated and have any chance of winning, your bot *must* respond to this with a 200 status code (HTTP 200/OK).
 
@@ -87,20 +95,26 @@ For example, if you registered with your bot's hostname as www.google.com (not r
 
 You can simulate this call to your bot with:
 
+<pre>
   curl localhost:3000/player/ready
+</pre>
 
 
 ### Seating Confirmation
 
 When the tournament has decided how to seat the available players, it will make a second round of requests to notify each player of their seat. If for some reason you return a non-200 status code, you will not be seated and will not enter the tournament. Similar to the ready-check, your bot should just return 200 OK. Also, if your bot is stateful, this is a good time to reset your state (or create a new table object based off of the game_table_identifier that's passed with the request).
 
+<pre>
   POST <hostname>/player/seat
 
   game_table_identifier - Unique identifier of the game table.
+</pre>
 
 You can simulate this call to your bot with something like:
 
+<pre>
   curl --data "game_table_identifier=game_table_4" localhost:3000/player/seat
+</pre>
 
 ### Get Action
 
@@ -112,6 +126,7 @@ Finally, the important call -- this interface is how the tournament gets your bo
 
 With that out of the way, here's the call that the server will make. Note the large number of parameters!
 
+<pre>
   POST <hostname>/player/action
 
   minimum_bet
@@ -133,13 +148,16 @@ With that out of the way, here's the call that the server will make. Note the la
     actions_this_round    - Another array!
       action              - "fold", "bet", "blind"
       amount              - Can be blank.
+</pre>
 
 
 This is a lot of data, but we're doing that to make it easier for you! You can write a fairly intelligent bot without having to track game state, and just using the data passed in.
 
 You can simulate this with a call like:
 
+<pre>
   curl --data "minimum_bet=2&maximum_bet=2&blind=true&your_chips=1&your_hand[0][suit]=D&your_hand[0][value]=3&your_hand[1][suit]=S&your_hand[1][value]=9&game_table_identifier=table_3&hand_identifier=hand_21&betting_phase=pre_flop&active_players[0][name]=Bob&active_players[0][chips]=1&active_players[1][name]=Alice&active_players[1][chips]=19&active_players[1][actions_this_round][0][action]=blind&active_players[1][actions_this_round][0][amount]=1" localhost:3000/player/action
+</pre>
 
 
 ### Notifications
@@ -153,6 +171,7 @@ If your bot is keeping track of game state, there are a few events you may want 
 
 All these events are posted through the same interface, but the data changes with each.
 
+<pre>
   POST <hostname>/player/notify
 
   event - either folded, unseated, won_chips, or hand_ended
@@ -170,10 +189,11 @@ All these events are posted through the same interface, but the data changes wit
         suit
         value
       chips_received - Number of chips this person won.
-
+</pre>
 
 You can simulate the last one (the first three are simple enough for you to figure out) with a call like:
 
+<pre>
   curl --data "event=hand_ended&winners[Alice][chips_received]=1&winners[Alice][hand][0][suit]=S&winners[Alice][hand][0][value]=2&winners[Alice][hand][1][suit]=S&winners[Alice][hand][1][value]=6" localhost:3000/player/notify
-
+</pre>
 
