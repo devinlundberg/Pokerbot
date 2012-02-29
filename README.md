@@ -197,3 +197,17 @@ You can simulate the last one (the first three are simple enough for you to figu
   curl --data "event=hand_ended&winners[Alice][chips_received]=1&winners[Alice][hand][0][suit]=S&winners[Alice][hand][0][value]=2&winners[Alice][hand][1][suit]=S&winners[Alice][hand][1][value]=6" localhost:3000/player/notify
 </pre>
 
+
+## Terminology
+
+- Bet: How many of your current chips you're putting into the pot this round. 
+- Betting round/betting phase: A round of betting wherein players choose to bet or fold based on the strength of their hand.
+- Blind: A forced bet of a specific amount. The purpose of blinds is to ensure some degree of progress in the game.
+- Flop: The betting round following the dealing of the flop (three community cards).
+- Hand: One allotment of cards to players, which includes four betting rounds as more and more community cards are dealt.
+- Pocket cards: A player's two private cards, dealt out at the start of the hand.
+
+
+## Final notes
+
+This is Enova Hold'Em, not Texas Hold'Em. Which is the same, except that any ways in which they're different are features, not bugs ;)
