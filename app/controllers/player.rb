@@ -27,7 +27,7 @@ SamplePokerBot.controllers :player do
   # Return 200 if you accept your seat at the table.
   # This is a good time to update or clear your game state.
   post "/seat" do
-    logger.info "Joining table #{params[:table].inspect}"
+    logger.info "Joining table #{params[:game_table_identifier].inspect}"
 
     status 200
     "Ready!"
