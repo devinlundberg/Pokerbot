@@ -6,11 +6,11 @@ SamplePokerBot.helpers do
   # def simple_helper_method
   #  ...
   # end
-  
+  valuehash=["2"=>2,"3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"T"=>10,"J"=>11,"Q"=>12,"K"=>13,"A"=>14]
   def formatCards(hand)
     fhand=[]
     hand.each do|card|
-      val=card[:value].to_i
+      val=valuehash[card[:value]]
       suit=card[:suit]
       if val>9
         valhash=[10=>'T',11=>'J',12=>'Q',13=>'K',14=>'A']
@@ -22,7 +22,7 @@ SamplePokerBot.helpers do
     return fhand
    end
   
-  def bet(hand,community,chips, minbet)
+  def bet(hand,community,chips, minbet,maxbet)
     hand=formatCards(hand)
     hand=formatCards(community)
     hand1 = PokerHand.new(community+hand)
@@ -34,6 +34,9 @@ SamplePokerBot.helpers do
       if amount + raise_amount < 
         amount += raise_amount
       end
+      if amount>maxbet
+        amount=maxbet
+      end
       return { :action => "bet", :amount => amount }
     else
       if minbet > 0.5*chips
@@ -43,7 +46,7 @@ SamplePokerBot.helpers do
       end
     end
   end
-  def openingbet(your_hand,chips,minbet)
+  def openingbet(your_hand,chips,minbet,maxbet)
   
     probability=0
     #pair hash
@@ -76,27 +79,27 @@ SamplePokerBot.helpers do
 
 
         if(your_hand[0][:value]==your_hand[1][:value])
-            probability=pairhash[your_hand[0][:value]]
+            probability=pairhash[valuehash[your_hand[0][:value]]]
         else if(your_hand[0][:suit]==your_hand[1][:suit])
-            probability=suithash[[your_hand[0][:value],your_hand[1][:value]]]
+            probability=suithash[[valuehash[your_hand[0][:value]],valuehash[your_hand[1][:value]]]]
         else    
-            probability=otherhash[[your_hand[0][:value],your_hand[1][:value]]]
+            probability=otherhash[[valuehash[your_hand[0][:value]],valuehash[your_hand[1][:value]]]]
 
     end
-    if probability>25
+    if probability>19
       amount=minbet
       raise_amount = rand(20) < 2 ? (0.1*chips).ceil : 0
       #randomly raise or bet
       if amount + raise_amount < 
         amount += raise_amount
       end
+      if amount>maxbet
+        amount=maxbet
+      end
       return { :action => "bet", :amount => amount }
     elsif probability>5 and minbet< 0.5*chips
       return { :action => "bet", :amount => minbet }
     else
-      if minbet==0
-        return { :action => "bet", :amount => minbet }
-      end
       return { :action => "fold", :amount => minbet }
     end
     
