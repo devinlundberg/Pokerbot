@@ -76,11 +76,11 @@ SamplePokerBot.helpers do
 
 
         if(your_hand[0][:value]==your_hand[1][:value])
-            probability=pairhash[your_hand[0][:value]]
+            probability=pairhash[your_hand[0][:value].to_i]
         else if(your_hand[0][:suit]==your_hand[1][:suit])
-            probability=suithash[[your_hand[0][:value],your_hand[1][:value]]]
+            probability=suithash[[your_hand[0][:value].to_i,your_hand[1][:value].to_i]]
         else    
-            probability=otherhash[[your_hand[0][:value],your_hand[1][:value]]]
+            probability=otherhash[[your_hand[0][:value].to_i,your_hand[1][:value].to_i]]
 
     end
     if probability>25

@@ -75,14 +75,13 @@ SamplePokerBot.helpers do
         [13,14]=>19}
 
 
-    if(community_cards)
         if(your_hand[0][:value]==your_hand[1][:value])
             probability=pairhash[your_hand[0][:value]]
         else if(your_hand[0][:suit]==your_hand[1][:suit])
             probability=suithash[[your_hand[0][:value],your_hand[1][:value]]]
         else    
             probability=otherhash[[your_hand[0][:value],your_hand[1][:value]]]
-        end
+
     end
     if probability>25
       amount=minbet
