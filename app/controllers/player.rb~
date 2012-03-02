@@ -66,10 +66,10 @@ SamplePokerBot.controllers :player do
     elsif params[:your_chips].to_i > params[:minimum_bet].to_i
       status 200
       amount = params[:minimum_bet].to_i
-      chips = params[:your_chips].to_i
+      
       # Randomly raise a bit. Maybe.
       raise_amount = rand(20) < 2 ? 1 : 0
-      if amount + raise_amount < 
+      if amount + raise_amount < params[:your_chips].to_i
         amount += raise_amount
       end
       
