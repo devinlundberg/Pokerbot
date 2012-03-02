@@ -67,13 +67,14 @@ SamplePokerBot.controllers :player do
       status 200
       amount = params[:minimum_bet].to_i
       chips = params[:your_chips].to_i
-      # Randomly raise a bit. Maybe.
-      raise_amount = rand(20) < 2 ? 1 : 0
-      if amount + raise_amount < 
-        amount += raise_amount
-      end
+      community=params[:community_cards]
       
-      action = { :action => "bet", :amount => amount }.to_json
+      if community
+        action=bet(hand,community,chips, minbet)
+      else
+        action=openingbet(your_hand,chips,minbet)
+      end
+      action = action.to_json
     else
       status 403
       action = { :action => "fold"}.to_json
