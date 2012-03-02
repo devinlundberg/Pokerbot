@@ -65,14 +65,15 @@ SamplePokerBot.controllers :player do
       action = { :action => "blind", :amount => params[:minimum_bet] }.to_json
     elsif params[:your_chips].to_i > params[:minimum_bet].to_i
       status 200
-      amount = params[:minimum_bet].to_i
+      minbet = params[:minimum_bet].to_i
       chips = params[:your_chips].to_i
-      community=params[:community_cards]
+      community=params[:community_cards].values
+      hand=params[:your_hand].values
       
       if community
         action=bet(hand,community,chips, minbet)
       else
-        action=openingbet(your_hand,chips,minbet)
+        action=openingbet(hand,chips,minbet)
       end
       action = action.to_json
     else
